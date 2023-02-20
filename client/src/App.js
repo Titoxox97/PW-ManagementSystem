@@ -9,7 +9,7 @@ function App() {
   const addPassword = () => {
     Axios.post('http://localhost:3001/addpassword', {
       password: password, 
-      title: title
+      title: title,
     })
   }
 
@@ -27,7 +27,7 @@ function App() {
       />
       <input 
       type="text" 
-      placeholder="E-mail" 
+      placeholder="Domain" 
       onChange={(event) => {
         setTitle(event.target.value);
       }}
