@@ -15,7 +15,7 @@ const db = mysql.createConnection({
 
 });
 
-// Post request to get values from the db
+// Retrieves passwords from the front end and stores them
 app.post('/addpassword', (req, res) => {
     const {password, title} = req.body
 
