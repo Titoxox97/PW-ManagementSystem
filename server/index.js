@@ -19,15 +19,17 @@ const db = mysql.createConnection({
 
 // Retrieves passwords from the front end and stores them
 app.post('/addpassword', (req, res) => {
-    const {password, title} = req.body
+    const {password, title} = req.body;
+    const cryptoPw = encrypt(password);
 
-    db.query("INSERT INTO passwords (password, title) VALUES (?,?)", 
-    [password, title],
-    (err, result) => {
+    db.query(
+        "INSERT INTO passwords (password, title, iv) VALUES (?,?,?)", 
+        [cryptoPw.password, title, cryptoPw.iv],
+        (err, result) => {
         if (err) {
             console.log(err);
         } else {
-            req.setEncoding("Success");
+            res.send("Success");
         }
     });
 });
