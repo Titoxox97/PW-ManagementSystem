@@ -5,7 +5,7 @@ const ghost = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 const encrypt = (password)=> {
     const iv = Buffer.from(crypto.randomBytes(16));
     //1)algorithm 2)transform secret var into buffer 3)pass iv to create cipher
-    const cypher = crypto.createCipheriv('aes-256-ocb', Buffer.from(ghost), iv)
+    const cypher = crypto.createCipheriv('aes-256-ctr', Buffer.from(ghost), iv);
 
     //Buffer that concatenates the updated pw and the final pw coming out of the cipher
     const encryptedPw = Buffer.concat([
@@ -24,18 +24,18 @@ const encrypt = (password)=> {
 // converting back to buffer from hex
 const decrypt = (encryption)=> {
     const decypher = crypto.createDecipheriv(
-        'aes-256-ocb',
+        'aes-256-ctr',
         Buffer.from(ghost),
         Buffer.from(encryption.iv, "hex")
         );
 
 
-    const decryptedpw = Buffer.concat([
+    const decryptedPw = Buffer.concat([
         decypher.update(Buffer.from(encryption.password, "hex")),
         decypher.final(),
     ]);
 
-    return decryptedpw.toString();
+    return decryptedPw.toString();
 };
 
 module.exports = { encrypt, decrypt };

@@ -4,7 +4,7 @@ const mysql = require('mysql');
 const cors = require('cors');
 const PORT = 3001;
 
-const { encrypt, decrypt } = require("./CryptoHandler")
+const { encrypt, decrypt } = require("./CryptoHandler");
 
 app.use(cors());
 app.use(express.json());
