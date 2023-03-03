@@ -1,17 +1,25 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Axios from "axios";
 function App() {
 
-  const [password, setPassword] = useState('')
-  const [title, setTitle] = useState('')
+  const [password, setPassword] = useState('');
+  const [title, setTitle] = useState('');
+  const [pwList, setPwList] = useState([]);
+
+
+  useEffect (()=> {
+    Axios.get('http://localhost:3001/showpasswords').then((response)=> {
+      setPwList(response.data);
+    });
+  }, [] );
 
   const addPassword = () => {
     Axios.post('http://localhost:3001/addpassword', {
       password: password, 
       title: title,
-    })
-  }
+    });
+  };
 
   return ( 
   <div className="App">
@@ -34,6 +42,19 @@ function App() {
       />
       <button onClick={addPassword}> Add Password </button>
     </div>
+
+      <div className='Passwords'>
+        {
+          pwList.map((val) => {
+            return  (
+            <div className='password'>
+              <h3> {val.title} </h3>
+            </div>
+            );
+          })}
+        
+      </div>
+
   </div>
   );
 }

@@ -17,7 +17,7 @@ const db = mysql.createConnection({
 
 });
 
-// Retrieves passwords from the front end and stores them
+// Retrieves passwords from the front end and stores them in the backend
 app.post('/addpassword', (req, res) => {
     const {password, title} = req.body;
     const cryptoPw = encrypt(password);
@@ -31,6 +31,17 @@ app.post('/addpassword', (req, res) => {
         } else {
             res.send("Success");
         }
+    });
+});
+
+// Displays the password results in their decrypted forms in the front end, home screen
+app.get('/showpasswords', (req, res) =>{
+    db.query('SELECT * FROM passwords;', (err, result)=> {
+        if(err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        } 
     });
 });
 
