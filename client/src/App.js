@@ -14,11 +14,22 @@ function App() {
     });
   }, [] );
 
+
   const addPassword = () => {
     Axios.post('http://localhost:3001/addpassword', {
       password: password, 
       title: title,
     });
+  };
+
+  const decryptPw = (encryption) => {
+    Axios.post('http://localhost:3001/decryptpassword', {
+    password: encryption.password, 
+    iv: encryption.iv,
+  }).then((response) => {
+    console.log(response.data);
+  });
+
   };
 
   return ( 
@@ -45,9 +56,19 @@ function App() {
 
       <div className='Passwords'>
         {
-          pwList.map((val) => {
+          pwList.map((val, key) => {
             return  (
-            <div className='password'>
+
+              // Call decrypt function
+            <div className='password' 
+            onClick={()=> {
+              decryptPw({
+                password: val.password, 
+                iv: val.iv
+              });
+            }}
+            key={key}
+            >
               <h3> {val.title} </h3>
             </div>
             );

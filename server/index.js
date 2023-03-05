@@ -46,6 +46,11 @@ app.get('/showpasswords', (req, res) =>{
 });
 
 
+app.post('/decryptpassword', (req, res) => {
+    res.send(decrypt(req.body));
+   });
+
+
 
 app.listen(PORT, ()=> {
     console.log('Server is running');
