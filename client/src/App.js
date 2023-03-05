@@ -27,7 +27,16 @@ function App() {
     password: encryption.password, 
     iv: encryption.iv,
   }).then((response) => {
-    console.log(response.data);
+    // Changes to the decrypted password when one clicks on the title
+    setPwList(pwList.map((val)=> {
+      return val.id === encryption.id ? {
+        id: val.id, 
+        password: val.password, 
+        title: response.data,
+        iv: val.iv,      
+      } 
+      : val;
+    }))
   });
 
   };
@@ -64,7 +73,8 @@ function App() {
             onClick={()=> {
               decryptPw({
                 password: val.password, 
-                iv: val.iv
+                iv: val.iv,
+                id: val.id,
               });
             }}
             key={key}
